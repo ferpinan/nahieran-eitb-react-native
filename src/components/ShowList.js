@@ -8,31 +8,22 @@
 
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import useFetchPrograms from '../hooks/useFetchPrograms';
 import {useNavigation} from '@react-navigation/native';
 
-const List: () => React$Node = () => {
+const ShowList: () => React$Node = (props) => {
     const navigation = useNavigation();
-    const list = useFetchPrograms();
 
-    if (list === 'LOADING') {
-        return (
-            <View>
-                <Text>LOADING...</Text>
-            </View>
-        );
-    }
     const styles = StyleSheet.create({
         text: {
             fontSize: 26,
             borderBottomWidth: 1,
             margin: 10
-        },
+        }
     });
 
     return (
         <View>
-            {list.map((member, index) => (
+            {props.list.map((member, index) => (
                 <Text
                     style={styles.text}
                     key={`list_${index}`}
@@ -46,4 +37,4 @@ const List: () => React$Node = () => {
     );
 };
 
-export default List;
+export default ShowList;

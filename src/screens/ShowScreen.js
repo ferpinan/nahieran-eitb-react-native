@@ -20,7 +20,7 @@ import {
 import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 import useFetchProgramDetail from '../hooks/useFetchProgramDetail';
 
-const Show: () => React$Node = ({navigation, route}) => {
+const ShowScreen: () => React$Node = ({navigation, route}) => {
     let routeElement = route.params['@id'];
     let useFetchProgramDetail1 = useFetchProgramDetail(routeElement);
     if (useFetchProgramDetail1 === 'LOADING') {
@@ -47,14 +47,6 @@ const Show: () => React$Node = ({navigation, route}) => {
                             {useFetchProgramDetail1.member.map(
                                 (member, index) => (
                                     <>
-                                        {/*<Image*/}
-                                        {/*    key={`image${index}`}*/}
-                                        {/*    style={styles.tinyLogo}*/}
-                                        {/*    source={{*/}
-                                        {/*        uri: member.episode_image,*/}
-                                        {/*    }}*/}
-                                        {/*/>*/}
-                                        {/*{console.log(member)}*/}
                                         <Text
                                             key={`list_${index}`}
                                             onPress={() =>
@@ -128,4 +120,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Show;
+export default ShowScreen;
