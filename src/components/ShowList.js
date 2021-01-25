@@ -30,16 +30,16 @@ export default class ShowList extends Component {
     renderItem = ({item, index}) => {
         return (
             <View style={styles.rowContainer}>
-                <TouchableOpacity
-                    style={styles.rowButton}>
+                <TouchableOpacity style={styles.rowButton}>
                     <View style={styles.titleTextContainer}>
                         <Text
                             style={styles.titleText}
-                            onPress={() => this.props.navigation.navigate(
+                            onPress={() =>
+                                this.props.navigation.navigate(
                                     'Details',
-                                    item.member)
-                            }
-                        >
+                                    item.member,
+                                )
+                            }>
                             {item.value}
                         </Text>
                     </View>

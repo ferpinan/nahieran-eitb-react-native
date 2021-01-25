@@ -1,44 +1,31 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
 import {
     SafeAreaView,
     TouchableOpacity,
     Text,
-    View,
     Image,
     Dimensions,
 } from 'react-native';
 import {FlatGrid} from 'react-native-super-grid';
 
-import useFetchProgramDetail from '../hooks/useFetchProgramDetail';
+import useFetchStartedEpisodes from '../hooks/useFetchStartedEpisodes';
 
-const ShowScreen: () => React$Node = ({navigation, route}) => {
-    let routeElement = route.params['@id'];
-    let useFetchProgramDetail1 = useFetchProgramDetail(routeElement);
-    if (useFetchProgramDetail1 === 'LOADING') {
+const StartedEpisodesScreen: () => React$Node = ({navigation, route}) => {
+    let useFetchProgramDetail1 = useFetchStartedEpisodes();
+    if (useFetchProgramDetail1.length == 0) {
         return (
-            <View>
-                <View>
-                    <Text>LOADING</Text>
-                </View>
-            </View>
+            <SafeAreaView>
+                <Text>Hello</Text>
+            </SafeAreaView>
         );
     }
-
     const win = Dimensions.get('window');
     return (
         <>
             <SafeAreaView>
                 <FlatGrid
                     itemDimension={130}
-                    data={useFetchProgramDetail1.member.reverse()}
+                    data={useFetchProgramDetail1}
                     renderItem={({item}) => (
                         <TouchableOpacity
                             style={{align: 'center'}}
@@ -69,4 +56,4 @@ const ShowScreen: () => React$Node = ({navigation, route}) => {
     );
 };
 
-export default ShowScreen;
+export default StartedEpisodesScreen;
