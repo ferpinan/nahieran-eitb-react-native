@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {StyleSheet, Text, View, BackHandler, AppState} from 'react-native';
+import {AppState, BackHandler, StyleSheet, Text, View} from 'react-native';
 import VideoPlayer from 'react-native-video-controls';
 import * as LocalStorage from '../utils/LocalStorage';
 
@@ -7,8 +7,8 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import useFetchEpisodeDetail from '../hooks/useFetchEpisodeDetail';
 import {useNavigation} from '@react-navigation/native';
 
-const Details: () => React$Node = ({route}) => {
-    const navigation = useNavigation();
+const Details = ({route}) => {
+    useNavigation();
     let episodePrevData = route.params;
     let routeElement = episodePrevData['@id'];
     const myRef = React.createRef();
@@ -47,7 +47,7 @@ const Details: () => React$Node = ({route}) => {
             prev.height > current.height ? prev : current,
         );
     let data1 = data.url;
-    let onLoad = item => {
+    let onLoad = () => {
         let id = useFetchProgramDetail1['@id'];
         LocalStorage.getEpisodeTime(id).done(episodeTime => {
             myRefRef.current.player.ref.seek(episodeTime);

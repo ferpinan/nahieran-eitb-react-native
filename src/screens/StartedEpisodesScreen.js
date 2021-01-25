@@ -1,59 +1,28 @@
 import React from 'react';
-import {
-    SafeAreaView,
-    TouchableOpacity,
-    Text,
-    Image,
-    Dimensions,
-} from 'react-native';
-import {FlatGrid} from 'react-native-super-grid';
+import {SafeAreaView, Text, StyleSheet} from 'react-native';
 
 import useFetchStartedEpisodes from '../hooks/useFetchStartedEpisodes';
+import EpisodeList from '../components/EpisodeList';
+import {LOADING} from '../constants/Constants';
+import LoadingScreen from './LoadingScreen';
 
-const StartedEpisodesScreen: () => React$Node = ({navigation, route}) => {
-    let useFetchProgramDetail1 = useFetchStartedEpisodes();
-    if (useFetchProgramDetail1.length == 0) {
+const StartedEpisodesScreen = ({navigation}) => {
+    let startedEpisodes = useFetchStartedEpisodes();
+    if (startedEpisodes === LOADING) {
+        return <LoadingScreen />;
+    }
+    if (startedEpisodes.length === 0) {
         return (
             <SafeAreaView>
-                <Text>Hello</Text>
+                <Text style={styles.notFound}>Ez duzu atalik hasi</Text>
             </SafeAreaView>
         );
     }
-    const win = Dimensions.get('window');
-    return (
-        <>
-            <SafeAreaView>
-                <FlatGrid
-                    itemDimension={130}
-                    data={useFetchProgramDetail1}
-                    renderItem={({item}) => (
-                        <TouchableOpacity
-                            style={{align: 'center'}}
-                            onPress={() =>
-                                navigation.navigate('EpisodeDetails', item)
-                            }>
-                            <Image
-                                style={{
-                                    alignSelf: 'stretch',
-                                    width: win.width / 2 - 20,
-                                    height: 150,
-                                }}
-                                source={{
-                                    uri: item.episode_image,
-                                }}
-                            />
-                            <Text
-                                style={{
-                                    alignSelf: 'center',
-                                }}>
-                                {item.title}
-                            </Text>
-                        </TouchableOpacity>
-                    )}
-                />
-            </SafeAreaView>
-        </>
-    );
+    return <EpisodeList list={startedEpisodes} navigation={navigation} />;
 };
+
+const styles = StyleSheet.create({
+    notFound: {alignSelf: 'center', fontSize: 30, paddingTop: 50},
+});
 
 export default StartedEpisodesScreen;

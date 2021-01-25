@@ -4,7 +4,7 @@ import {SafeAreaView, TextInput, StatusBar} from 'react-native';
 import ShowList from '../components/ShowList';
 import {useNavigation} from '@react-navigation/native';
 
-const Main: () => React$Node = props => {
+const Main = props => {
     const navigation = useNavigation();
     const [text, setText] = useState('');
 
