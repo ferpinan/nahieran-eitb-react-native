@@ -5,11 +5,11 @@ import {
     Text,
     Dimensions,
     TouchableOpacity,
-    StatusBar,
     Platform,
 } from 'react-native';
 
 import AlphabetFlatList from 'react-native-custom-alphabetflatlist';
+import SCREEN from '../constants/Screen';
 
 const {height} = Dimensions.get('window');
 const ROW_HEIGHT = 60;
@@ -30,16 +30,16 @@ export default class ShowList extends Component {
     renderItem = ({item, index}) => {
         return (
             <View style={styles.rowContainer}>
-                <TouchableOpacity
-                    style={styles.rowButton}>
+                <TouchableOpacity style={styles.rowButton}>
                     <View style={styles.titleTextContainer}>
                         <Text
                             style={styles.titleText}
-                            onPress={() => this.props.navigation.navigate(
-                                    'Details',
-                                    item.member)
-                            }
-                        >
+                            onPress={() =>
+                                this.props.navigation.navigate(
+                                    SCREEN.SHOW_DETAILS,
+                                    item.member,
+                                )
+                            }>
                             {item.value}
                         </Text>
                     </View>

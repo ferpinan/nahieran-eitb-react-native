@@ -1,37 +1,46 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import Main from './screens/Main';
-import ShowScreen from './screens/ShowScreen';
-import EpisodeDetails from './screens/VideoPlayer';
-import ShowList from './screens/ShowListScreen';
+import {
+    getFocusedRouteNameFromRoute,
+    NavigationContainer,
+} from '@react-navigation/native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import useFetchPrograms from './hooks/useFetchPrograms';
+import SplashScreen from './screens/SplashScreen';
+import DrawerContent from './components/DrawerContent';
+import AppStack from './conf/AppStack';
+import SCREEN from './constants/Screen';
+import {LOADING} from './constants/Constants';
 
-const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 const App: () => React$Node = () => {
+    const showList = useFetchPrograms();
+    if (showList === LOADING) {
+        return <SplashScreen />;
+    }
+
+    let drawerOption = ({route}) => {
+        // if we are on the video player drawer wont be opened
+        const routeName = getFocusedRouteNameFromRoute(route);
+        if (routeName === SCREEN.EPISODE_DETAILS) {
+            return {
+                swipeEnabled: false,
+            };
+        }
+        return {};
+    };
     return (
         <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen name="ShowLists" component={ShowList}
-                              options={{headerShown: false}} />
-                <Stack.Screen
-                    name="Home"
-                    component={Main}
-                    options={{headerShown: false}}
-                />
-                <Stack.Screen name="Details" component={ShowScreen}
-                              options={{headerShown: false}} />
-                <Stack.Screen name="EpisodeDetails" component={EpisodeDetails}
-                              options={{headerShown: false}}/>
-            </Stack.Navigator>
+            <Drawer.Navigator
+                initialRouteName={SCREEN.HOME_DRAWER}
+                backBehavior="none"
+                drawerContent={({navigation}) => (
+                    <DrawerContent navigation={navigation} />
+                )}>
+                <Drawer.Screen name={SCREEN.HOME_DRAWER} options={drawerOption}>
+                    {() => <AppStack showList={showList} />}
+                </Drawer.Screen>
+            </Drawer.Navigator>
         </NavigationContainer>
     );
 };
