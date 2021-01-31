@@ -1,16 +1,23 @@
 import React, {useState} from 'react';
 import {SafeAreaView, TextInput, StatusBar} from 'react-native';
 
-import ShowList from '../components/ShowList';
+import ShowList from '../components/ShowList/ShowList';
 import {useNavigation} from '@react-navigation/native';
+import useFetchFavShows from '../hooks/useFetchFavShows';
 
 const Main = props => {
     const navigation = useNavigation();
+    const favShows = useFetchFavShows(props.showFavs);
     const [text, setText] = useState('');
 
-    const filteredList = props.showList.filter(item => {
+    let filteredList = props.showList.filter(item => {
         return item.title.includes(text);
     });
+    if (props.showFavs) {
+        filteredList = filteredList.filter(item => {
+            return favShows.includes(item['@id']);
+        });
+    }
     return (
         <SafeAreaView style={{flex: 1}}>
             <StatusBar hidden />
@@ -20,7 +27,11 @@ const Main = props => {
                 onChangeText={text => setText(text)}
                 defaultValue={text}
             />
-            <ShowList list={filteredList} navigation={navigation} />
+            <ShowList
+                list={filteredList}
+                navigation={navigation}
+                favShows={favShows}
+            />
         </SafeAreaView>
     );
 };
