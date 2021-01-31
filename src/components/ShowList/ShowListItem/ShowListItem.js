@@ -24,7 +24,6 @@ const ShowListItem = props => {
     useEffect(() => {
         setIsFav(props.isFav);
     }, [props.isFav]);
-    // setIsFav(isFavProp);
     const onClickFavButton = show => {
         setIsFav(!isFav);
         toggleFavShowOnStorage(props.showId);

@@ -5,8 +5,8 @@ import {LOADING} from '../constants/Constants';
 import LoadingScreen from './LoadingScreen';
 import EpisodeList from '../components/EpisodeList';
 
-const ShowScreen = ({navigation, route}) => {
-    let routeElement = route.params['@id'];
+const ShowScreen = props => {
+    let routeElement = props.route.params['@id'];
     let episodeList = useFetchProgramDetail(routeElement);
     if (episodeList === LOADING) {
         return <LoadingScreen />;
@@ -15,7 +15,7 @@ const ShowScreen = ({navigation, route}) => {
     return (
         <EpisodeList
             list={episodeList.member.reverse()}
-            navigation={navigation}
+            navigation={props.navigation}
         />
     );
 };

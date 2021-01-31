@@ -1,16 +1,31 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView, TextInput, StatusBar} from 'react-native';
 
 import ShowList from '../components/ShowList/ShowList';
 import {useNavigation} from '@react-navigation/native';
 import useFetchFavShows from '../hooks/useFetchFavShows';
+import useFetchShowsByType from '../hooks/useFetchShowsByType';
+import LoadingScreen from './LoadingScreen';
 
-const Main = props => {
+const ShowListScreen = props => {
+    let shows = useFetchShowsByType(props.route, props.showList);
     const navigation = useNavigation();
     const favShows = useFetchFavShows(props.showFavs);
     const [text, setText] = useState('');
 
-    let filteredList = props.showList.filter(item => {
+    useEffect(() => {
+        if (props.route) {
+            navigation.setOptions({
+                title: props.route.params.title.replace('<BR/>', ''),
+            });
+        }
+    });
+
+    if (shows === 'LOADING') {
+        return <LoadingScreen />;
+    }
+
+    let filteredList = shows.filter(item => {
         return item.title.includes(text);
     });
     if (props.showFavs) {
@@ -36,4 +51,4 @@ const Main = props => {
     );
 };
 
-export default Main;
+export default ShowListScreen;

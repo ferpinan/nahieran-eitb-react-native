@@ -7,7 +7,7 @@ const DrawerContent = props => {
         <View style={styles.view}>
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => props.navigation.navigate(SCREEN.SHOW_LIST)}>
+                onPress={() => props.navigation.navigate(SCREEN.SHOW_LIST, '')}>
                 <Text style={styles.text}>Saioak</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -16,6 +16,11 @@ const DrawerContent = props => {
                     props.navigation.navigate(SCREEN.STARTED_EPISODES)
                 }>
                 <Text style={styles.text}>Hasitako atalak</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => props.navigation.navigate(SCREEN.SHOW_TYPES)}>
+                <Text style={styles.text}>Saio motak</Text>
             </TouchableOpacity>
         </View>
     );
