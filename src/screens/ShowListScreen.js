@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import useFetchFavShows from '../hooks/useFetchFavShows';
 import useFetchShowsByType from '../hooks/useFetchShowsByType';
 import LoadingScreen from './LoadingScreen';
+import {LOADING} from '../constants/Constants';
 
 const ShowListScreen = props => {
     let shows = useFetchShowsByType(props.route, props.showList);
@@ -14,9 +15,14 @@ const ShowListScreen = props => {
     const [text, setText] = useState('');
 
     useEffect(() => {
-        if (props.route) {
+        if (shows === LOADING) {
+            navigation.setOptions({headerShown: false});
+        } else {
             navigation.setOptions({
-                title: props.route.params.title.replace('<BR/>', ''),
+                title: props.route
+                    ? props.route.params.title.replace('<BR/>', '')
+                    : '',
+                headerShown: true,
             });
         }
     });
@@ -39,7 +45,7 @@ const ShowListScreen = props => {
             <TextInput
                 style={{height: 80, fontSize: 30, paddingLeft: 20}}
                 placeholder="Saioa bilatu..."
-                onChangeText={text => setText(text)}
+                onChangeText={newText => setText(newText)}
                 defaultValue={text}
             />
             <ShowList

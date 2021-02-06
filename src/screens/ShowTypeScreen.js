@@ -4,27 +4,29 @@ import LoadingScreen from './LoadingScreen';
 import useFetchShowTypes from '../hooks/useFetchShowTypes';
 import {
     ScrollView,
+    StatusBar,
     StyleSheet,
     Text,
     TouchableOpacity,
-    View,
 } from 'react-native';
 import SCREEN from '../constants/Screen';
 
 const ShowTypeScreen = ({navigation}) => {
     let showTypes = useFetchShowTypes();
-    if (showTypes === LOADING) {
-        useEffect(() => {
-            navigation.setOptions({headerShown: false});
-        });
-        return <LoadingScreen />;
-    }
     useEffect(() => {
+        if (showTypes === LOADING) {
+            navigation.setOptions({headerShown: false});
+        }
         navigation.setOptions({headerShown: true});
     });
 
+    if (showTypes === LOADING) {
+        return <LoadingScreen />;
+    }
+
     return (
         <ScrollView contentContainerStyle={styles.container}>
+            <StatusBar hidden />
             {showTypes.map((showType, index) => (
                 <TouchableOpacity
                     style={styles.item}

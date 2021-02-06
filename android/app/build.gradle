@@ -132,8 +132,8 @@ android {
         applicationId "com.nahieraneitbnative"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
-        versionName "0.3.0"
+        versionCode 4
+        versionName "0.4.0"
     }
     splits {
         abi {
@@ -195,6 +195,9 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+    implementation 'com.facebook.fresco:fresco:2.4.0'
+    implementation 'com.facebook.fresco:animated-gif:2.4.0'   //use
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
